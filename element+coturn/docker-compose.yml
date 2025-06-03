@@ -20,6 +20,7 @@ services:
       - synapse
 
 # 991:991 user:group
+# v1.130.0
   synapse:
     image: ghcr.io/element-hq/synapse:latest
     hostname: synapseme
