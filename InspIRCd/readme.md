@@ -10,3 +10,4 @@ docker run --name inspircd -e "INSP_NET_SUFFIX=.domain.com" -e "INSP_NET_NAME=SB
 
 - Use ``bcrypt`` to hash your password and use excape character ``\`` for special characters ``$,@...``
 - In the above example, I use self-signed certificates but it is possible to use your certificate. ( See the image docker hub page )
+- I just exposed TLS port not plain text to server to server communication
