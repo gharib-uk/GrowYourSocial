@@ -6,4 +6,7 @@ docker run --name inspircd -e "INSP_NET_SUFFIX=.domain.com" -e "INSP_NET_NAME=SB
 -e "INSP_TLS_CN=irc.domain.com" -e "INSP_TLS_MAIL=re@domain.com"
 -e "INSP_TLS_UNIT=Name" -d -p 6697:6697  -v ./inspircd:/inspircd/conf/
 --restart=always inspircd/inspircd-docker:4.7.0
-``
+```
+
+- Use ``bcrypt`` to hash your password and use excape character ``\`` for special characters ``$,@...``
+- In the above example, I use self-signed certificates but it is possible to use your certificate. ( See the image docker hub page )
