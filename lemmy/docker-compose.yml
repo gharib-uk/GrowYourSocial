@@ -1,0 +1,56 @@
+version: '2'
+
+services:
+  nginx_lemmy:
+    image: nginx:mainline-alpine
+    restart: always
+    ports:
+      - "127.0.0.1:6077:80"
+    depends_on:
+      - lemmy
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+
+  lemmy:
+    # Update this tag name when the software updates
+    image: dessalines/lemmy:0.19.11
+    restart: always
+    environment:
+      - RUST_LOG="warn,lemmy_server=info,lemmy_api=info,lemmy_api_common=info,lemmy_api_crud=info,lemmy_apub=info,lemmy_db_queries=info,lemmy_db_schema=info,lemmy_db_views=info,lemmy_db_views_actor=info,lemmy_db_views_moderator=info,lemmy_routes=info,lemmy_utils=info,lemmy_websocket=info"
+    volumes:
+      - ./lemmy.hjson:/config/config.hjson
+    depends_on:
+      - postgres
+      - pictrs
+
+  lemmy-ui:
+    # Update this tag name when the software updates
+    image: dessalines/lemmy-ui:0.19.11
+    restart: always
+    environment:
+      - LEMMY_UI_LEMMY_INTERNAL_HOST=lemmy:8536
+      - LEMMY_UI_LEMMY_EXTERNAL_HOST=lemmy
+      - LEMMY_UI_HTTPS=false
+    volumes:
+      - ./volumes/lemmy-ui/extra_themes:/app/extra_themes
+    depends_on:
+      - lemmy
+
+  postgres:
+    image: postgres:17.5-bookworm
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=db
+    volumes:
+      - ./volumes/postgres:/var/lib/postgresql/data
+      # - ./customPostgresql.conf:/etc/postgresql.conf
+    restart: always
+# user:group 991:991
+  pictrs:
+    image: asonix/pictrs:latest
+    user: 991:991
+    volumes:
+      - ./volumes/pictrs:/mnt
+    restart: always
+    mem_limit: 200m
