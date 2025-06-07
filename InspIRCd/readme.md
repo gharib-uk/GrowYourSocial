@@ -17,4 +17,4 @@ docker run --detach --name thelounge --publish 127.0.0.1:9000:9000 \
 --volume ./thelounge:/var/opt/thelounge --restart always ghcr.io/thelounge/thelounge:latest
 ```
 
-- Docker based IRC Client
+- The Lounge is a Docker based IRC Client
