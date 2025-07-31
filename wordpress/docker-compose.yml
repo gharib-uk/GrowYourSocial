@@ -11,7 +11,7 @@ services:
       - MYSQL_DATABASE=wordpress
     volumes:
       - ./dbdata:/var/lib/mysql
-    command: '--default-authentication-plugin=mysql_native_password'
+    command: '--default-authentication-plugin=mysql_native_password --disable-log-bin'
 #    networks:
 #      - app-network
 
